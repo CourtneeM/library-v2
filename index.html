@@ -10,6 +10,41 @@
   </head>
 
   <body>
-    
+    <header>
+      <h1>Your Bookshelf</h1>
+      <form id="new-book-form" action="#">
+        <ul>
+          <li>
+            <label for="title">Title</label>
+            <input id="book-title" type="text" id="title" name="title">
+          </li>
+          <li>
+            <label for="author">Author</label>
+            <input id="book-author" type="text" id="author" name="author">
+          </li>
+          <li>
+            <label for="pages">Pages</label>
+            <input id="book-pages" type="text" id="pages" name="pages">
+          </li>
+          <li>
+            <label for="read">Read</label>
+            <input id="book-read" type="checkbox" id="read" name="read">
+          </li>
+        </ul>
+        <button type="button">Add Book</button>
+      </form>
+    </header>
+    <main>
+      <section id="bookshelf-container">
+        <ul>
+          <li>Title</li>
+          <li>Author</li>
+          <li>Pages</li>
+          <li>Read</li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
   </body>
 </html>
