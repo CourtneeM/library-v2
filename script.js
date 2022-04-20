@@ -11,16 +11,47 @@ function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
+function deleteBookFromLibrary(bookIndex) {
+  myLibrary.splice(bookIndex, 1);
+}
+
 const display = {
   createBookContainer: function(book) {
     const bookContainer = document.createElement('ul');
   
     Object.values(book).forEach(attribute => {
       const listItem = document.createElement('li');
-      listItem.textContent = attribute;
+
+      if (typeof attribute === "boolean") {
+        const readCheckbox = document.createElement('input');
+        readCheckbox.type = 'checkbox';
+        readCheckbox.checked = attribute;
+
+        readCheckbox.addEventListener('click', () => {
+          const bookIndex = [...listItem.parentElement.parentElement.children].indexOf(listItem.parentElement);
+          myLibrary[bookIndex - 1].read = !myLibrary[bookIndex - 1].read;
+        });
+        listItem.appendChild(readCheckbox);
+      } else {
+        listItem.textContent = attribute;
+      }
   
       bookContainer.appendChild(listItem);
     });
+
+    const deleteBookBtnLi = document.createElement('li');
+    const deleteBookBtn = document.createElement('img');
+
+    deleteBookBtnLi.classList.add('delete-book-btn-li');
+    deleteBookBtn.src = './assets/icons/trash-can-outline.png';
+    deleteBookBtnLi.addEventListener('click', () => {
+      const bookIndex = [...deleteBookBtnLi.parentElement.parentElement.children].indexOf(deleteBookBtnLi.parentElement);
+      deleteBookFromLibrary(bookIndex - 1);
+      this.deleteBook(bookIndex);
+    });
+
+    deleteBookBtnLi.appendChild(deleteBookBtn);
+    bookContainer.appendChild(deleteBookBtnLi);
   
     return bookContainer;
   },
@@ -34,6 +65,12 @@ const display = {
     const bookContainer = display.createBookContainer(book);
   
     bookshelf.appendChild(bookContainer);
+  },
+  deleteBook: function(bookIndex) {
+    const bookshelf = document.querySelector('#bookshelf-container');
+    const bookToDelete = [...bookshelf.children][bookIndex];
+
+    bookshelf.removeChild(bookToDelete);
   }
 }
 
@@ -42,11 +79,8 @@ document.querySelector('button').addEventListener('click', () => {
   const author = document.querySelector('#book-author');
   const pages = document.querySelector('#book-pages');
   const read = document.querySelector('#book-read');
-  
-  // change to checkbox icon
-  const bookRead = read.checked ? 'read' : 'not read';
 
-  const book = new Book(title.value, author.value, pages.value, bookRead);
+  const book = new Book(title.value, author.value, pages.value, read.checked);
 
   addBookToLibrary(book);
 
@@ -56,10 +90,5 @@ document.querySelector('button').addEventListener('click', () => {
     display.newBook(book);
   }
 
-  [title, author, pages, read].forEach(input => input['type'] === 'text' ? input.value = '' : input.checked = false);
+  [title, author, pages, read].forEach(input => input['type'] !== 'checkbox' ? input.value = '' : input.checked = false);
 });
-
-
-
-
-
