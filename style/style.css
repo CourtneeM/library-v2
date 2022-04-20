@@ -12,8 +12,8 @@ header {
   margin-bottom: 50px;
 }
 header h1 {
+  padding: 20px 0;
   text-align: center;
-  margin-bottom: 20px;
 }
 header form {
   display: flex;
