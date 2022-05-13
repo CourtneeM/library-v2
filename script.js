@@ -82,7 +82,7 @@ document.querySelector('button').addEventListener('click', () => {
   const pages = document.querySelector('#book-pages');
   const read = document.querySelector('#book-read');
 
-  if (title.value === '' || author.value === '' || pages.value === '') return;
+  if (!title.checkValidity() || !author.checkValidity() || !pages.checkValidity()) return;
 
   const book = new Book(title.value, author.value, pages.value, read.checked);
 
